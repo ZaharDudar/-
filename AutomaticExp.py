@@ -33,7 +33,8 @@ while True:
         print("Done")
         raise Exception
     finally:
-        jet.stepBackward(500)
+        jet.stepBackward(600)
         time.sleep(5)
         jet.deinitStepMotorGpio()
         GPIO.cleanup()
+        
