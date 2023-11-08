@@ -1,0 +1,5 @@
+step_motor 0.005 cm/step
+p0 851.645 levels
+p1 173.6 levels = 140 Pa
+step_adc 0.0013 V/level
+max_v 3.3 v

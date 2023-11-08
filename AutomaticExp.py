@@ -7,7 +7,7 @@ fileName=input("Enter file name: ")
 # with open(f"./{fileName}.csv",'r') as f:
 
 one_step=5
-adc_decisec=1000
+adc_decisec=10
 data=[]
 tmp_adc=[]
 
@@ -21,11 +21,11 @@ while True:
             time.sleep(0.005)
             for j in range(adc_decisec):
                 tmp_adc.append(jet.getAdc())
-                time.sleep(0.001)
+                time.sleep(0.1)
             data.append([float(i),sum(tmp_adc)/len(tmp_adc)])
             tmp_adc=[]
             
-        with open(f"./{fileName}.csv",'a') as f:
+        with open(f"./{fileName}.csv",'w') as f:
             for line in data:
                 f.write(','.join([str(g) for g in line]))
                 f.write('\n')
