@@ -1,15 +1,20 @@
 import numpy as np
 import matplotlib.pyplot as plt
-
+import math
 
 for name in [f"./{i}mm.csv" for i in range(0,80,10)]:
     data=[]
     lines=[]
     with open(name, 'r') as f:
         lines = [j.strip().split(',') for j in f.readlines()]
-        data = np.array([[float(line[0]),900-float(line[1])] for line in lines])
-
-    # print(data)
+        data = np.array([[float(line[0]),float(line[1])] for line in lines])
+        
+    V=-data[:,1]*140/(max(data[:,1]-173)) + 178
+    for i in range (len(V)):
+        V[i]=math.sqrt(V[i])
+    data[:,1]=V
+    
+    #print(data)
     max_x, min_x=0,max(data[:,0])
     for ind in range(len(data[:,0])):
         if data[ind,1] > (max(data[:,1])-10):
@@ -30,8 +35,24 @@ for name in [f"./{i}mm.csv" for i in range(0,80,10)]:
     
     new_data=np.array(new_data)
     # print(new_data)
-    plt.plot(new_data[:,0], new_data[:,1],label=name[2:-4])
+    
+    x=new_data[:,0]
+    p=new_data[:,1]
+    q=0
+    counter=0
+    
+    for zxc in range (len(x)):
+        q=abs(x[zxc]*p[zxc]/1000)
+        counter=counter+q
+        q=0
+        print (counter)
+    counter*=2.6*3.14
+    print (counter)
+
+    plt.plot(new_data[:,0], new_data[:,1], label=name[2:-4])
 
 plt.grid()
 plt.legend()
+plt.xlabel('Положение трубки отноительно центса (мм)')
+plt.ylabel('Скорость воздуха (м/с)')
 plt.show()
