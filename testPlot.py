@@ -14,6 +14,7 @@ for name in [f"./{i}mm.csv" for i in range(0,80,10)]:
         V[i]=math.sqrt(V[i])
     data[:,1]=V
     
+    
     #print(data)
     max_x, min_x=0,max(data[:,0])
     for ind in range(len(data[:,0])):
@@ -36,20 +37,25 @@ for name in [f"./{i}mm.csv" for i in range(0,80,10)]:
     new_data=np.array(new_data)
     # print(new_data)
     
+    new_data[:,0]=new_data[:,0]/20
     x=new_data[:,0]
     p=new_data[:,1]
     q=0
     counter=0
     
-    for zxc in range (len(x)):
-        q=abs(x[zxc]*p[zxc]/1000)
+    for zxc in range (len(x)-1):
+        q=abs((x[zxc]*p[zxc]/1000+x[zxc+1]*p[zxc+1]/1000)*(x[zxc+1]-x[zxc])/1000)
         counter=counter+q
         q=0
-        print (counter)
-    counter*=2.6*3.14
+        
+    counter*=2.6*0.5*1000
     print (counter)
-
-    plt.plot(new_data[:,0], new_data[:,1], label=name[2:-4])
+    Q=[]
+    Q.append(counter)
+    LEGENDA=name[2:-4]+' '+'Q=' +str(round(counter,3))+'г/с'
+    
+    
+    plt.plot(new_data[:,0], new_data[:,1], label=LEGENDA)
 
 plt.grid()
 plt.legend()
